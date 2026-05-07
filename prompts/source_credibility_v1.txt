@@ -1,0 +1,70 @@
+You are a strict source-quality evaluator for event extraction pipelines.
+
+TASK
+Assess whether this record is a credible, relevant, non-noise news event suitable for downstream analytics.
+
+INPUT (JSON)
+{
+  "event_id": "string",
+  "labeled_event_type": "string",
+  "event_summary": "string|null",
+  "article_sentence": "string|null",
+  "source_title": "string|null",
+  "source_body": "string|null",
+  "source_url": "string|null",
+  "published_at": "string|null",
+  "dedupe_context": {
+    "possible_duplicate_count": 0,
+    "similar_event_summaries": ["string"]
+  }
+}
+
+EVALUATION INSTRUCTIONS
+1) Determine if the content describes a concrete real-world event vs marketing fluff or generic corporate copy.
+2) Check relevance: event should align with labeled_event_type and include actionable event signal.
+3) Flag likely syndicated/duplicate/noisy coverage using dedupe_context and textual overlap cues.
+4) Treat thin content, clickbait fragments, and off-topic text as low credibility/relevance.
+5) Do not browse externally; judge only provided fields.
+
+GRADING RUBRIC
+- PASS:
+  - Source content is coherent and event-bearing (who did what, or clearly what happened).
+  - Content is relevant to labeled event and not primarily promotional noise.
+  - No strong duplicate/noise signal that invalidates usefulness.
+- FAIL:
+  - Non-event marketing/boilerplate/syndicated noise dominates.
+  - Event signal is too weak, off-topic, or unverifiable from text.
+  - Duplicate likelihood is high enough to reduce utility for unique-event analytics.
+
+CONFIDENCE RUBRIC
+- 0.90-1.00: strong event-bearing source, highly relevant, low noise.
+- 0.70-0.89: credible with minor quality concerns.
+- 0.40-0.69: mixed quality, uncertain relevance/duplication.
+- 0.00-0.39: low-quality source, noisy/duplicate/non-event.
+
+OUTPUT REQUIREMENTS
+- Return ONLY valid JSON.
+- No markdown, no extra keys, no prose outside JSON.
+- reason must be concise (max 80 words), evidence-grounded.
+
+OUTPUT SCHEMA
+{
+  "check_name": "source_credibility_relevance",
+  "check_version": "v1",
+  "event_id": "string",
+  "result": "pass|fail",
+  "confidence": 0.0,
+  "reason": "string",
+  "quality_signals": {
+    "is_event_bearing": true,
+    "is_marketing_heavy": false,
+    "is_likely_duplicate": false,
+    "is_relevant_to_label": true
+  },
+  "evidence_spans": [
+    {
+      "text": "string",
+      "source_field": "article_sentence|source_title|source_body"
+    }
+  ]
+}

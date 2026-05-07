@@ -1,0 +1,19 @@
+.DS_Store
+.pycache/
+__pycache__/
+*.pyc
+
+# Local datasets and generated artifacts
+Datasets-2025-08-08/
+data/
+input/
+output/
+remediations/
+logs/
+Prompt result version comparision/
+
+# Local DB and app state
+*.db
+*.sqlite
+*.sqlite3
+.streamlit/

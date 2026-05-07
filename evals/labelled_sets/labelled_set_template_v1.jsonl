@@ -1,0 +1,2 @@
+{"event_id":"example-event-id-1","check_name":"semantic_accuracy","human_label":"pass","notes":"Template row"}
+{"event_id":"example-event-id-2","check_name":"entity_resolution","human_label":"fail","notes":"Template row"}
