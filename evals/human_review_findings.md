@@ -6,7 +6,6 @@ This evaluation uses hand-labelled examples from the human review queue for each
 
 - **Ground-truth FAIL**: `approve_fail`, `needs_changes`, `reject_record`
 - **Ground-truth PASS**: `override_pass`
-- **Model prediction** in this reviewed set: all rows were model-flagged `fail` (queue-based review set).
 
 ## Results by Check
 
@@ -24,15 +23,15 @@ This evaluation uses hand-labelled examples from the human review queue for each
 
 ## Important Method Note
 
-This is a **review-queue-only** evaluation (mostly/only model-failed cases), not a random full-population sample.
+This is a **review-queue-only** evaluation, not a random full-population sample.
 So:
 - Precision is meaningful for fail-queue quality.
 - Recall/accuracy are conditional to this queue and should be interpreted with caution.
-- For full defendable judge metrics, include both predicted pass and fail examples in the hand-labelled eval set.
+- For full defendable metrics, include a balanced hand-labelled population across all review outcomes.
 
 ## Next Eval Improvement
 
-Build balanced hand-labelled sets per check with both model-pass and model-fail examples, then recompute precision/recall/accuracy on that combined set.
+Build balanced hand-labelled sets per check across the full population, then recompute precision/recall/accuracy on that combined set.
 
 ---
 *`source_credibility` recall is undefined in this slice because there were no ground-truth fail positives in the reviewed sample.*
